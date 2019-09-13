@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import { Content } from 'common/components/layout/Content';
+import { Body } from 'common/components/layout/Body';
 import { Footer } from 'common/components/layout/Footer';
 import { Header } from 'common/components/layout/Header';
 import React, { Component } from 'react';
@@ -9,7 +9,7 @@ class AppComponent extends Component {
     return (
       <Layout>
         <Header />
-        <Content />
+        <Body />
         <Footer></Footer>
       </Layout>
     );
