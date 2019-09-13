@@ -1,6 +1,8 @@
 let faker = require('faker');
 
 const generateMovies = () => {
+  faker.locale = 'ru';
+
   let movies = [];
 
   for (let id = 0; id < 10; id++) {

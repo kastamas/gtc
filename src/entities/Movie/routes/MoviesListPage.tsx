@@ -1,8 +1,10 @@
 import { Card, List, Typography } from 'antd';
+import { ERoutes } from 'common/enums/Routes.enum';
+import { ConnectedRouterProps } from 'connected-react-router';
 import { communicationMovie, IMovieConnectedProps } from 'entities/Movie/Movie.communication';
 import React, { Component } from 'react';
 
-type AllProps = IMovieConnectedProps;
+type AllProps = IMovieConnectedProps & ConnectedRouterProps;
 
 class MoviesListPageComponent extends Component<AllProps> {
   componentDidMount(): void {
@@ -18,7 +20,7 @@ class MoviesListPageComponent extends Component<AllProps> {
     console.log(data);
     return (
       <div>
-        <Typography.Title>Now showing</Typography.Title>
+        <Typography.Title>Now showing!</Typography.Title>
 
         <List
           grid={{
@@ -34,7 +36,12 @@ class MoviesListPageComponent extends Component<AllProps> {
           dataSource={data || []}
           renderItem={movie => (
             <List.Item>
-              <Card title={movie.title} cover={<img src={movie.cover} />}>
+              <Card
+                title={movie.title}
+                cover={<img src={movie.cover} />}
+                className="box-shadowed--interactive"
+                onClick={() => this.goToMovie(movie.id)}
+              >
                 <Typography.Paragraph ellipsis={{ rows: 2 }}>{movie.description}</Typography.Paragraph>
               </Card>
             </List.Item>
@@ -43,6 +50,12 @@ class MoviesListPageComponent extends Component<AllProps> {
       </div>
     );
   }
+
+  goToMovie = (id: number) => {
+    const { history } = this.props;
+
+    history.push(`/${ERoutes.Movies}/${id}`);
+  };
 }
 
 export const MoviesListPage = communicationMovie.injector(MoviesListPageComponent);

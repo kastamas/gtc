@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import { App } from 'app/App';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
-import 'antd/dist/antd.css';
 import 'assets/sass/app.scss';
 
 const MOUNT_NODE = document.getElementById('root');

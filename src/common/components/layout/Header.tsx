@@ -1,11 +1,14 @@
-import { Layout } from 'antd';
+import { Icon, Layout } from 'antd';
 import React, { Component } from 'react';
 
 class HeaderComponent extends Component {
   render() {
     return (
       <Layout.Header>
-        <div style={{ color: '#fff', fontWeight: 'bold' }}>CinemaGo!</div>
+        <div style={{ color: '#fff', fontWeight: 'bold' }}>
+          <Icon type="video-camera" />
+          <span className="ml-3">CinemaGo!</span>
+        </div>
       </Layout.Header>
     );
   }

@@ -3,7 +3,9 @@ import { actionsTypes, APIProvider, BaseStrategy, Branch, buildCommunication, St
 import { IMovieModel } from 'entities/Movie/Movie.models';
 
 export interface IMovieConnectedProps {
+  movieModel: StoreBranch<IMovieModel>;
   movieCollection: StoreBranch<IMovieModel[]>;
+  getMovieModel(id: number): void;
   getMovieCollection(): void;
 }
 
@@ -16,7 +18,16 @@ const collectionAPIProvider = [
   )
 ];
 
-const branches = [new Branch('collection', collectionAPIProvider)];
+const modelAPIProvider = [
+  new APIProvider(
+    actionsTypes.get,
+    (id): Promise<any> => {
+      return axios.get(`/movies/${id}`).then(response => response.data);
+    }
+  )
+];
+
+const branches = [new Branch('collection', collectionAPIProvider), new Branch('model', modelAPIProvider)];
 
 const namespace = 'movie';
 
