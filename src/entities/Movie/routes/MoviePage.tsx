@@ -1,6 +1,6 @@
-import { Button, Card, Col, Descriptions, Divider, PageHeader, Row, Spin, Typography } from 'antd';
+import { Button, Card, Col, Descriptions, Divider, PageHeader, Row, Spin, Statistic, Typography } from 'antd';
 import { ERoutes } from 'common/enums/Routes.enum';
-import { MoviePageBooking } from 'entities/Movie/components';
+import { MoviePageBooking, MoviePageTheatersList } from 'entities/Movie/components';
 import { RouteComponentProps } from 'react-router';
 import { communicationMovie, IMovieConnectedProps } from 'entities/Movie/Movie.communication';
 import React, { Component } from 'react';
@@ -40,19 +40,27 @@ class MoviePageComponent extends Component<AllProps> {
               </div>
             </Col>
             <Col>
-              <Descriptions layout="vertical">
+              <Descriptions layout="vertical" size="small">
                 <Descriptions.Item label="Description">{description}</Descriptions.Item>
               </Descriptions>
             </Col>
             <Col>
-              <Descriptions layout="vertical" column={1}>
-                <Descriptions.Item label="IMDb rating">{imdbRating}</Descriptions.Item>
-                <Descriptions.Item label="Genre">{genres.join(', ')}</Descriptions.Item>
+              <Descriptions layout="vertical" column={1} size="small">
+                <Descriptions.Item label="IMDb rating">
+                  <Statistic value={imdbRating} valueStyle={{ color: '#1890ff' }} />
+                </Descriptions.Item>
+                <Descriptions.Item label="Genre" className="text--capitalize">
+                  {genres.join(', ')}
+                </Descriptions.Item>
                 <Descriptions.Item label="Director">{director}</Descriptions.Item>
                 <Descriptions.Item label="Starring">{starring.join(', ')}</Descriptions.Item>
               </Descriptions>
             </Col>
           </Row>
+
+          <Divider />
+
+          <MoviePageTheatersList />
 
           <Divider />
 

@@ -40,6 +40,11 @@
       color: transparent;
       border-radius: 8px;
 
+      &.active {
+        background-color: #1890ff;
+        color: white;
+      }
+
       &:hover {
         color: white;
       }

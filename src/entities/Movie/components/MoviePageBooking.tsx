@@ -1,5 +1,7 @@
 import { Alert, Button, Card, Col, Descriptions, Icon, Row, Typography } from 'antd';
+import { MoviePageBookingSeat } from 'entities/Movie/components/MoviePageBookingSeat';
 import { IMovieModel } from 'entities/Movie/Movie.models';
+import { ISeatModel } from 'entities/Theater/Theater.models';
 import React, { Component } from 'react';
 
 interface IComponentProps {
@@ -148,15 +150,9 @@ class MoviePageBookingComponent extends Component<AllProps> {
                     {theaterData.rows.map(row => {
                       return (
                         <Row type="flex" className="mt-0 mb-0">
-                          {row.seats.map(seat => {
-                            return seat.status !== 'reserved' ? (
-                              <div className="seat seat--available">{seat.position}</div>
-                            ) : (
-                              <div className="seat">
-                                <Icon type="user" />
-                              </div>
-                            );
-                          })}
+                          {row.seats.map(seat => (
+                            <MoviePageBookingSeat seat={seat as ISeatModel} />
+                          ))}
                         </Row>
                       );
                     })}
