@@ -4,13 +4,21 @@ import { IMovieModel } from 'entities/Movie/Movie.models';
 import { ISeatModel } from 'entities/Theater/Theater.models';
 import React, { Component } from 'react';
 
+interface IComponentState {
+  selectedSeats: ISeatModel[];
+}
+
 interface IComponentProps {
   movie: IMovieModel;
 }
 
 type AllProps = IComponentProps;
 
-class MoviePageBookingComponent extends Component<AllProps> {
+class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
+  state = {
+    selectedSeats: []
+  };
+
   render() {
     const theaterData = {
       rows: [
@@ -113,6 +121,7 @@ class MoviePageBookingComponent extends Component<AllProps> {
       ]
     };
 
+    const { selectedSeats } = this.state;
     const { movie } = this.props;
     const { title, description } = movie;
 
@@ -151,7 +160,11 @@ class MoviePageBookingComponent extends Component<AllProps> {
                       return (
                         <Row type="flex" className="mt-0 mb-0">
                           {row.seats.map(seat => (
-                            <MoviePageBookingSeat seat={seat as ISeatModel} />
+                            <MoviePageBookingSeat
+                              seat={seat as ISeatModel}
+                              onSelectSeat={this.onSelectSeat}
+                              onDeselectSeat={this.onDeselectSeat}
+                            />
                           ))}
                         </Row>
                       );
@@ -170,15 +183,52 @@ class MoviePageBookingComponent extends Component<AllProps> {
           </Row>
         </Col>
         <Col xs={24} sm={6}>
+          {selectedSeats.length > 0 && (
+            <>
+              <Typography.Title level={4}>Selected seats</Typography.Title>
+              {selectedSeats.map((seat: ISeatModel) => {
+                return (
+                  <>
+                    <p>
+                      Row: {seat.rowPosition}, Seat: {seat.position}
+                    </p>
+                    <p className="color--primary">{seat.price} RUR</p>
+                  </>
+                );
+              })}
+              <Typography.Title level={4}>
+                Total: <span>RUR</span>
+              </Typography.Title>
+              <Button type={'primary'}>Go to payment</Button>
+            </>
+          )}
           <Descriptions>
             <Descriptions.Item label="Movie">{title}</Descriptions.Item>
           </Descriptions>
-          <Button type={'primary'}>Buy Ticket!</Button>
-          <Button type={'default'}>Buy Ticket!</Button>
         </Col>
       </Row>
     );
   }
+
+  onSelectSeat = (seat: ISeatModel) => {
+    this.setState(state => {
+      return { selectedSeats: state.selectedSeats.concat([seat]) };
+    });
+  };
+
+  onDeselectSeat = seat => {
+    this.setState(state => {
+      const index = state.selectedSeats.findIndex(
+        findSeat => findSeat.position === seat.position && findSeat.rowPosition === seat.rowPosition
+      );
+
+      if (index !== -1) {
+        state.selectedSeats.splice(index, 1);
+      }
+
+      return { selectedSeats: state.selectedSeats };
+    });
+  };
 }
 
 export const MoviePageBooking = MoviePageBookingComponent;

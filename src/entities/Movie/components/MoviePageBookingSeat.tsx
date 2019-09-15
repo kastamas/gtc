@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 
 interface IComponentProps {
   seat: ISeatModel;
+  onSelectSeat: (seat: ISeatModel) => void;
+  onDeselectSeat: (seat: ISeatModel) => void;
 }
 
 interface IComponentState {
@@ -45,15 +47,23 @@ class MoviePageBookingSeatComponent extends Component<AllProps> {
   }
 
   onSelectSeat = (event, seat) => {
+    const { onSelectSeat } = this.props;
+
     this.setState({
       isActive: true
     });
+
+    onSelectSeat(seat);
   };
 
   onDeselectSeat = (event, seat) => {
+    const { onDeselectSeat } = this.props;
+
     this.setState({
       isActive: false
     });
+
+    onDeselectSeat(seat);
   };
 }
 

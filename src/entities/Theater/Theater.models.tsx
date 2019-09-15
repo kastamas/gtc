@@ -1,8 +1,13 @@
-export interface ITheaterModel {
-  name: string;
-  address: string;
-  logo: string;
-  shows: IShowModel[];
+export interface ISeatModel {
+  rowPosition: number;
+  position: number;
+  status: ESeatStatus;
+  price: number;
+}
+
+export interface IRowModel {
+  position: number;
+  seats: ISeatModel;
 }
 
 export interface IShowModel {
@@ -10,15 +15,11 @@ export interface IShowModel {
   rows: IRowModel[];
 }
 
-export interface ISeatModel {
-  position: number;
-  status: ESeatStatus;
-}
-
-export interface IRowModel {
-  rowPosition: number;
-  position: number;
-  seats: ISeatModel;
+export interface ITheaterModel {
+  name: string;
+  address: string;
+  logo: string;
+  shows: IShowModel[];
 }
 
 export enum ESeatStatus {
