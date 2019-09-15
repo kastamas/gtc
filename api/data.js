@@ -1,17 +1,23 @@
 let faker = require('faker');
+faker.locale = 'ru';
+
+const generateData = () => {
+  return {
+    movies: generateMovies(),
+    rows: { rows: generateRows() }
+  };
+};
 
 const generateMovies = () => {
-  faker.locale = 'ru';
-
   let movies = [];
 
-  for (let id = 0; id < 10; id++) {
+  for (let i = 0; i < 10; i++) {
     const duration = `${getRandomInt(70, 160)} Min.`;
     const movie = {
-      id: id,
+      id: i,
       title: faker.commerce.productName(),
       description: faker.lorem.sentences(),
-      cover: `https://picsum.photos/220/330?random=${id}`,
+      cover: `https://picsum.photos/220/330?random=${i}`,
       genres: generateGenres(),
       director: faker.name.findName(),
       premiereDate: faker.date.recent(),
@@ -23,8 +29,57 @@ const generateMovies = () => {
     movies.push(movie);
   }
 
-  return { movies: movies };
+  return movies;
 };
+
+const generateRows = () => {
+  const rows = [];
+  const rowsCount = getRandomInt(6, 8);
+
+  for (let i = rowsCount; i > 0; i--) {
+    const seats = [];
+    const seatsCount = rowsCount + Math.floor(rowsCount / 2);
+
+    for (let j = seatsCount; j > 0; j--) {
+      const status = getRandomInt(1, 10) > 8 ? 'reserved' : 'available';
+      const price = 330;
+
+      seats.push({
+        rowPosition: i,
+        position: j,
+        status: status,
+        price: price
+      });
+    }
+
+    rows.push({
+      position: i,
+      seats: seats
+    });
+  }
+
+  return rows.reverse();
+};
+
+/*const generateShows = () => {
+  dateTime: faker.date.future(),
+
+}*/
+
+/*const generateTheaters = () => {
+  let theaters = [];
+
+  for (let i = 0; i < 10; i++) {
+    const theater = {
+      id: i,
+      name: faker.company.companyName(),
+      address: faker.address.streetAddress(),
+      logo: faker.image.abstract()
+    };
+  }
+
+  return theaters;
+};*/
 
 const generateStarring = () => {
   const starring = [];
@@ -50,8 +105,8 @@ const generateGenres = () => {
 };
 
 const getImdbRating = () => {
-  const min = 1;
-  const max = 10;
+  const min = 3;
+  const max = 9;
 
   return (Math.random() * (max - min + 1) + min).toFixed(1);
 };
@@ -60,4 +115,4 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-module.exports = generateMovies;
+module.exports = generateData;

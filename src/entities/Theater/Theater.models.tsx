@@ -7,7 +7,7 @@ export interface ISeatModel {
 
 export interface IRowModel {
   position: number;
-  seats: ISeatModel;
+  seats: ISeatModel[];
 }
 
 export interface IShowModel {
@@ -16,6 +16,7 @@ export interface IShowModel {
 }
 
 export interface ITheaterModel {
+  id: number;
   name: string;
   address: string;
   logo: string;
