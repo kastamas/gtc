@@ -35,10 +35,10 @@ class MoviesListPageComponent extends Component<AllProps> {
           loading={loading}
           dataSource={data || []}
           renderItem={movie => (
-            <List.Item>
+            <List.Item className="movie">
               <Card
                 cover={
-                  <div style={{ maxHeight: '300px', overflow: 'hidden' }}>
+                  <div className="movie__card__cover">
                     <img
                       src={movie.cover}
                       style={{ cursor: 'pointer', width: '100%' }}
@@ -46,12 +46,12 @@ class MoviesListPageComponent extends Component<AllProps> {
                     />
                   </div>
                 }
-                className="box-shadowed--interactive"
+                className="movie__card box-shadowed--interactive"
               >
                 <h3>{movie.title}</h3>
                 <Typography.Paragraph className="text--capitalize">{movie.genres.join(', ')}</Typography.Paragraph>
                 <Row type="flex" justify="center">
-                  <Button type="primary" onClick={() => this.goToMovie(movie.id)}>
+                  <Button type="primary" onClick={() => this.goToMovie(movie.id)} className="w--100">
                     Buy a Ticket!
                   </Button>
                 </Row>

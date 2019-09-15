@@ -1,0 +1,9 @@
+.movie {
+  &__card {
+    &__cover {
+      max-height: 300px;
+      overflow: hidden;
+      position: relative;
+    }
+  }
+}

@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { Alert, Button, Card, Col, Descriptions, Divider, Icon, Row, Typography } from 'antd';
+import { Alert, Button, Card, Col, Descriptions, Divider, Form, Icon, Input, message, Modal, Row, Typography } from 'antd';
 import { MoviePageBookingSeat } from 'entities/Movie/components/MoviePageBookingSeat';
+import { MoviePagePurchaseModal } from 'entities/Movie/components/MoviePagePurchaseModal';
+import { MoviePageSelectedSeatsInfo } from 'entities/Movie/components/MoviePageSelectedSeatsInfo';
 import { IMovieModel } from 'entities/Movie/Movie.models';
 import { IRowModel, ISeatModel } from 'entities/Theater/Theater.models';
 import React, { Component } from 'react';
@@ -9,6 +11,7 @@ interface IComponentState {
   selectedSeats: ISeatModel[];
   loading: boolean;
   theaterData?: { rows: IRowModel[] };
+  isModalDisplaying: boolean;
 }
 
 interface IComponentProps {
@@ -21,7 +24,8 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
   state = {
     selectedSeats: [],
     loading: false,
-    theaterData: undefined
+    theaterData: undefined,
+    isModalDisplaying: false
   };
 
   componentDidMount(): void {
@@ -38,7 +42,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
   }
 
   render() {
-    const { selectedSeats } = this.state;
+    const { selectedSeats, isModalDisplaying } = this.state;
     const { movie } = this.props;
     const { title, description } = movie;
 
@@ -49,95 +53,90 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
     }
 
     return (
-      <Row type={'flex'} gutter={32}>
-        <Col xs={24} sm={18} className="theater">
-          <Row>
-            <Alert type="info" message="Click on the seat which suits you" closable={true} />
-          </Row>
-          <Row gutter={16} type="flex" className="legend pt-3">
-            <Col className="legend__item">
-              <div className="seat mr-3">
-                <Icon type="user" />
-              </div>
-              Unavailable seats
-            </Col>
-            <Col className="legend__item ">
-              <div className="seat seat--available mr-3" />
-              330 RUR
-            </Col>
-          </Row>
-          <Row type={'flex'} justify={'center'} gutter={16} className="mt-5">
-            {theaterData !== null && (
-              <div>
-                <div className="screen">screen</div>
-                <div style={{ display: 'flex' }}>
-                  <div className="mr-3">
-                    {theaterData &&
-                      theaterData.rows.map(row => (
-                        <Row className="mt-0 mb-0">
+      <>
+        <Row type={'flex'} gutter={32}>
+          <Col xs={24} sm={18} className="theater">
+            <Row>
+              <Alert type="info" message="Click on the seat which suits you" closable={true} />
+            </Row>
+            <Row gutter={16} type="flex" className="legend pt-3">
+              <Col className="legend__item">
+                <div className="seat mr-3">
+                  <Icon type="user" />
+                </div>
+                Unavailable seats
+              </Col>
+              <Col className="legend__item ">
+                <div className="seat seat--available mr-3" />
+                330 RUR
+              </Col>
+            </Row>
+            <Row type={'flex'} justify={'center'} gutter={16} className="mt-5">
+              {theaterData !== null && (
+                <div>
+                  <div className="screen">screen</div>
+                  <div style={{ display: 'flex' }}>
+                    <div className="mr-3">
+                      {theaterData &&
+                        theaterData.rows.map(row => (
+                          <Row className="mt-0 mb-0">
+                            <div className="rows">Row {row.position}</div>
+                          </Row>
+                        ))}
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        {theaterData.rows.map(row => {
+                          return (
+                            <Row type="flex" className="mt-0 mb-0">
+                              {row.seats.map(seat => (
+                                <MoviePageBookingSeat
+                                  seat={seat as ISeatModel}
+                                  onSelectSeat={this.onSelectSeat}
+                                  onDeselectSeat={this.onDeselectSeat}
+                                />
+                              ))}
+                            </Row>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="ml-3">
+                      {theaterData.rows.map(row => (
+                        <Row className="mt-0 mb-0 ">
                           <div className="rows">Row {row.position}</div>
                         </Row>
                       ))}
-                  </div>
-                  <div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {theaterData.rows.map(row => {
-                        return (
-                          <Row type="flex" className="mt-0 mb-0">
-                            {row.seats.map(seat => (
-                              <MoviePageBookingSeat
-                                seat={seat as ISeatModel}
-                                onSelectSeat={this.onSelectSeat}
-                                onDeselectSeat={this.onDeselectSeat}
-                              />
-                            ))}
-                          </Row>
-                        );
-                      })}
                     </div>
-                  </div>
-                  <div className="ml-3">
-                    {theaterData.rows.map(row => (
-                      <Row className="mt-0 mb-0 ">
-                        <div className="rows">Row {row.position}</div>
-                      </Row>
-                    ))}
                   </div>
                 </div>
-              </div>
+              )}
+            </Row>
+          </Col>
+          <Col xs={24} sm={6}>
+            {selectedSeats.length > 0 && (
+              <>
+                <MoviePageSelectedSeatsInfo selectedSeats={selectedSeats} />
+                <Button type={'primary'} onClick={this.onToggleModal}>
+                  Go to payment
+                </Button>
+              </>
             )}
-          </Row>
-        </Col>
-        <Col xs={24} sm={6}>
-          {selectedSeats.length > 0 && (
-            <>
-              <Typography.Title level={4}>Selected seats</Typography.Title>
-              {selectedSeats.map((seat: ISeatModel) => {
-                return (
-                  <>
-                    <div>
-                      Row: {seat.rowPosition}, Seat: {seat.position}
-                      <br />
-                      <span className="color--primary">{seat.price} RUR</span>
-                    </div>
-                    <Divider className="mt-3 mb-3" />
-                  </>
-                );
-              })}
-              <Typography.Title level={4}>
-                Total:{' '}
-                <span className="color--primary">
-                  {selectedSeats.reduce((prevVal: number, currentVal: ISeatModel) => prevVal + currentVal.price, 0)} RUR
-                </span>
-              </Typography.Title>
-              <Button type={'primary'}>Go to payment</Button>
-            </>
-          )}
-          <Descriptions>
-            <Descriptions.Item label="Movie">{title}</Descriptions.Item>
-          </Descriptions>
-        </Col>
-      </Row>
+            <Descriptions layout="vertical" column={1} size={'small'} className="mt-3">
+              <Descriptions.Item label="Movie">{title}</Descriptions.Item>
+              <Descriptions.Item label="Cinema">-</Descriptions.Item>
+              <Descriptions.Item label="Show">-</Descriptions.Item>
+            </Descriptions>
+          </Col>
+        </Row>
+
+        <MoviePagePurchaseModal
+          selectedSeats={selectedSeats as ISeatModel[]}
+          isDisplaying={isModalDisplaying}
+          onConfirmPayment={this.onConfirmPayment}
+          onToggleModal={this.onToggleModal}
+        />
+      </>
     );
   }
 
@@ -160,6 +159,25 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
       return { selectedSeats: state.selectedSeats };
     });
   };
+
+  onToggleModal = () => {
+    this.setState(state => {
+      return { isModalDisplaying: !state.isModalDisplaying };
+    });
+  };
+
+  onConfirmPayment = (customerDetails: { email: string }) => {
+    const { email } = customerDetails;
+
+    this.onToggleModal();
+
+    this.setState({
+      selectedSeats: []
+    });
+    message.success(`Purchasing successful! Tickets has been sent on your email: ${email}`, 5);
+  };
+
+  updateSeatsStatus = () => {};
 }
 
 export const MoviePageBooking = MoviePageBookingComponent;
