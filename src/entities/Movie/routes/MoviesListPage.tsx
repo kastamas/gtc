@@ -1,4 +1,4 @@
-import { Card, List, Typography } from 'antd';
+import { Button, Card, List, Row, Typography } from 'antd';
 import { ERoutes } from 'common/enums/Routes.enum';
 import { ConnectedRouterProps } from 'connected-react-router';
 import { communicationMovie, IMovieConnectedProps } from 'entities/Movie/Movie.communication';
@@ -30,19 +30,31 @@ class MoviesListPageComponent extends Component<AllProps> {
             md: 4,
             lg: 4,
             xl: 4,
-            xxl: 4
+            xxl: 6
           }}
           loading={loading}
           dataSource={data || []}
           renderItem={movie => (
             <List.Item>
               <Card
-                title={movie.title}
-                cover={<img src={movie.cover} />}
+                cover={
+                  <div style={{ maxHeight: '300px', overflow: 'hidden' }}>
+                    <img
+                      src={movie.cover}
+                      style={{ cursor: 'pointer', width: '100%' }}
+                      onClick={() => this.goToMovie(movie.id)}
+                    />
+                  </div>
+                }
                 className="box-shadowed--interactive"
-                onClick={() => this.goToMovie(movie.id)}
               >
-                <Typography.Paragraph ellipsis={{ rows: 2 }}>{movie.description}</Typography.Paragraph>
+                <Typography.Title level={4}>{movie.title}</Typography.Title>
+                <Typography.Paragraph className="text--capitalize">{movie.genres.join(', ')}</Typography.Paragraph>
+                <Row type="flex" justify="center">
+                  <Button type="primary" onClick={() => this.goToMovie(movie.id)}>
+                    Buy a Ticket!
+                  </Button>
+                </Row>
               </Card>
             </List.Item>
           )}

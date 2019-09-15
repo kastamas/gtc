@@ -5,7 +5,7 @@ class HeaderComponent extends Component {
   render() {
     return (
       <Layout.Header>
-        <div style={{ color: '#fff', fontWeight: 'bold' }}>
+        <div className="header">
           <Icon type="video-camera" />
           <span className="ml-3">CinemaGo!</span>
         </div>
