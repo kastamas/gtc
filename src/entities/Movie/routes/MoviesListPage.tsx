@@ -30,7 +30,7 @@ class MoviesListPageComponent extends Component<AllProps> {
             md: 4,
             lg: 4,
             xl: 4,
-            xxl: 6
+            xxl: 4
           }}
           loading={loading}
           dataSource={data || []}
