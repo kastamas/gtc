@@ -27,7 +27,7 @@ class MoviePageComponent extends Component<AllProps> {
       );
     }
 
-    const { id, genres, title, description, cover } = data;
+    const { id, genres, title, description, cover, director, imdbRating, starring } = data;
 
     return (
       <>
@@ -40,9 +40,16 @@ class MoviePageComponent extends Component<AllProps> {
               </div>
             </Col>
             <Col>
-              <Descriptions>
+              <Descriptions layout="vertical">
                 <Descriptions.Item label="Description">{description}</Descriptions.Item>
-                <Descriptions.Item label="Genres">{genres.join(', ')}</Descriptions.Item>
+              </Descriptions>
+            </Col>
+            <Col>
+              <Descriptions layout="vertical" column={1}>
+                <Descriptions.Item label="IMDb rating">{imdbRating}</Descriptions.Item>
+                <Descriptions.Item label="Genre">{genres.join(', ')}</Descriptions.Item>
+                <Descriptions.Item label="Director">{director}</Descriptions.Item>
+                <Descriptions.Item label="Starring">{starring.join(', ')}</Descriptions.Item>
               </Descriptions>
             </Col>
           </Row>

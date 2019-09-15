@@ -6,18 +6,34 @@ const generateMovies = () => {
   let movies = [];
 
   for (let id = 0; id < 10; id++) {
+    const duration = `${getRandomInt(70, 160)} Min.`;
     const movie = {
       id: id,
       title: faker.commerce.productName(),
       description: faker.lorem.sentences(),
       cover: `https://picsum.photos/220/330?random=${id}`,
-      genres: generateGenres()
+      genres: generateGenres(),
+      director: faker.name.findName(),
+      premiereDate: faker.date.recent(),
+      duration: duration,
+      imdbRating: getImdbRating(),
+      starring: generateStarring()
     };
 
     movies.push(movie);
   }
 
   return { movies: movies };
+};
+
+const generateStarring = () => {
+  const starring = [];
+
+  for (let quantity = getRandomInt(3, 8); quantity > 0; quantity--) {
+    starring.push(faker.name.findName());
+  }
+
+  return starring;
 };
 
 const generateGenres = () => {
@@ -31,6 +47,13 @@ const generateGenres = () => {
   }
 
   return genres;
+};
+
+const getImdbRating = () => {
+  const min = 1;
+  const max = 10;
+
+  return (Math.random() * (max - min + 1) + min).toFixed(1);
 };
 
 function getRandomInt(min, max) {

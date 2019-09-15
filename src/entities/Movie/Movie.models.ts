@@ -4,4 +4,9 @@ export interface IMovieModel {
   description: string;
   cover: string;
   genres: string[];
+  director: string;
+  starring: string[];
+  duration: number;
+  premiereDate: string;
+  imdbRating: number;
 }

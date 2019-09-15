@@ -48,7 +48,7 @@ class MoviesListPageComponent extends Component<AllProps> {
                 }
                 className="box-shadowed--interactive"
               >
-                <Typography.Title level={4}>{movie.title}</Typography.Title>
+                <h3>{movie.title}</h3>
                 <Typography.Paragraph className="text--capitalize">{movie.genres.join(', ')}</Typography.Paragraph>
                 <Row type="flex" justify="center">
                   <Button type="primary" onClick={() => this.goToMovie(movie.id)}>
