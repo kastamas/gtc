@@ -1,4 +1,5 @@
 import { communicationMovie } from 'entities/Movie/Movie.communication';
+import { communicationShows } from 'entities/Shows/Shows.communication';
 import { AnyAction, Reducer } from 'redux';
 import { RouterState } from 'react-router-redux';
 
@@ -9,5 +10,6 @@ export interface IApplicationState {
 }
 
 export const reducers = {
-  ...communicationMovie.reducers
+  ...communicationMovie.reducers,
+  ...communicationShows.reducers
 };

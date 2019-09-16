@@ -2,9 +2,12 @@ let faker = require('faker');
 faker.locale = 'ru';
 
 const generateData = () => {
+  const movies = generateMovies();
+
   return {
-    movies: generateMovies(),
-    rows: { rows: generateRows() }
+    movies: movies,
+    rows: { rows: generateRows() },
+    shows: generateShows(movies)
   };
 };
 
@@ -61,12 +64,33 @@ const generateRows = () => {
   return rows.reverse();
 };
 
-/*const generateShows = () => {
-  dateTime: faker.date.future(),
+const generateShows = movies => {
+  const shows = [];
+  for (let i = 0; i < 30; i++) {
+    const randomIndex = getRandomInt(0, movies.length - 1);
+    const movie = movies[randomIndex];
 
-}*/
+    const startDateTime = faker.date.future();
 
-/*const generateTheaters = () => {
+    const show = {
+      id: i,
+      movie: movie,
+      theater: generateTheater(),
+      startDateTime: startDateTime,
+      endDateTime: startDateTime + movie.duration,
+      room: {
+        number: getRandomInt(1, 9),
+        rows: generateRows()
+      }
+    };
+
+    shows.push(show);
+  }
+
+  return shows;
+};
+
+const generateTheaters = () => {
   let theaters = [];
 
   for (let i = 0; i < 10; i++) {
@@ -79,7 +103,17 @@ const generateRows = () => {
   }
 
   return theaters;
-};*/
+};
+
+const generateTheater = () => {
+  const theater = {
+    name: faker.company.companyName(),
+    address: faker.address.streetAddress(),
+    logo: faker.image.abstract()
+  };
+
+  return theater;
+};
 
 const generateStarring = () => {
   const starring = [];

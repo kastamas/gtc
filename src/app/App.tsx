@@ -10,7 +10,7 @@ class AppComponent extends Component {
       <Layout>
         <Header />
         <Body />
-        <Footer></Footer>
+        <Footer />
       </Layout>
     );
   }

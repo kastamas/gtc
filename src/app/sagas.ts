@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { EErrorStatus } from 'common/enums/ErrorStatus.enum';
 import { communicationMovie } from 'entities/Movie/Movie.communication';
+import { communicationShows } from 'entities/Shows/Shows.communication';
 import { all, call, takeEvery } from 'redux-saga/effects';
 
 function* errorWatcher() {
@@ -18,5 +19,5 @@ function* errorWatcher() {
 }
 
 export default function* rootSaga(): any {
-  yield all([errorWatcher(), ...communicationMovie.sagas]);
+  yield all([errorWatcher(), ...communicationMovie.sagas, ...communicationShows.sagas]);
 }

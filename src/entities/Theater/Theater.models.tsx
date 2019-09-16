@@ -10,17 +10,11 @@ export interface IRowModel {
   seats: ISeatModel[];
 }
 
-export interface IShowModel {
-  dateTime: string[];
-  rows: IRowModel[];
-}
-
 export interface ITheaterModel {
   id: number;
   name: string;
   address: string;
   logo: string;
-  shows: IShowModel[];
 }
 
 export enum ESeatStatus {
