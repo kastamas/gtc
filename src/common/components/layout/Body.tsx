@@ -8,7 +8,7 @@ import { Route, Switch } from 'react-router-dom';
 class ContentComponent extends Component {
   render() {
     return (
-      <Layout.Content className={'body'}>
+      <Layout.Content className="body">
         <Row type={'flex'} justify={'center'}>
           <Col xs={24} sm={24} md={22} lg={20} xl={18} xxl={16}>
             <Switch>

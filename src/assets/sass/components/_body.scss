@@ -4,6 +4,11 @@
   padding: 24px 50px;
 
   @media(min-height: $screen-xs) {
-    padding: 24px 16px;
+    padding: 24px 0px;
+
+    &--with-h-padding {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
   }
 }

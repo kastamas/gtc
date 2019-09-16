@@ -1,0 +1,13 @@
+.table {
+
+  @media(min-height: $screen-xs) {
+    .ant-table-tbody {
+      tr {
+        td {
+          padding: 4px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

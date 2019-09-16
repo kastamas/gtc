@@ -6,15 +6,16 @@ import React, { Component } from 'react';
 interface IComponentProps {
   show: IShowModel;
   layout?: 'vertical' | 'horizontal';
+  colNumber?: number;
 }
 
 class MoviePageShowInfoComponent extends Component<IComponentProps> {
   render() {
-    const { show, layout } = this.props;
+    const { show, layout, colNumber } = this.props;
     const { movie, startDateTime, theater, room } = show;
 
     return (
-      <Descriptions layout={layout || 'vertical'} column={1} size={'small'} className="mt-3">
+      <Descriptions layout={layout || 'vertical'} column={colNumber || 1} size={'small'} className="mt-3">
         <Descriptions.Item label="Movie">{movie.title}</Descriptions.Item>
         <Descriptions.Item label="Show time">
           <DateFormatter date={startDateTime} format="Do MMM HH:mm" />

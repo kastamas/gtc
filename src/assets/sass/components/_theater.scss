@@ -1,3 +1,5 @@
+@import '../abstracts/variables';
+
 .theater {
   .legend {
     &__item {
@@ -24,6 +26,12 @@
     margin: 2px 0px;
     white-space: nowrap;
     font-size: 12px;
+
+    @media (min-height: $screen-xs) {
+      height: 20px;
+      line-height: 20px;
+      display: none;
+    }
   }
 
   .seat {
@@ -47,6 +55,12 @@
       &:hover {
         color: white;
       }
+    }
+
+    @media (min-height: $screen-xs) {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
     }
   }
 }

@@ -34,15 +34,17 @@ class MoviePageTheatersListComponent extends Component<AllProps> {
         {selectedShow ? (
           <>
             <Typography.Title level={4}>Selected</Typography.Title>
-            <MoviePageShowInfo show={selectedShow} />
-            <Button type="default" onClick={onDeselect}>
-              Select another show
-            </Button>
+            <MoviePageShowInfo show={selectedShow} layout="horizontal" colNumber={3} />
+            <Row type="flex" justify="end">
+              <Button type="default" onClick={onDeselect} className="mt-3">
+                Select another show
+              </Button>
+            </Row>
           </>
         ) : (
           <>
             {data && (
-              <Table dataSource={data} loading={loading} pagination={false} rowKey="id">
+              <Table dataSource={data} loading={loading} pagination={false} rowKey="id" className="table">
                 <Table.Column
                   key="date"
                   render={(text, record: IShowModel) => <DateFormatter format="Do MMM" date={record.startDateTime} />}
@@ -50,10 +52,10 @@ class MoviePageTheatersListComponent extends Component<AllProps> {
                 <Table.Column
                   key="time"
                   render={(text, record: IShowModel) => (
-                    <div className="text--nowrap">
+                    <>
                       <DateFormatter format="HH:mm" date={record.startDateTime} /> -{' '}
                       <DateFormatter format="HH:mm" date={record.endDateTime} />
-                    </div>
+                    </>
                   )}
                 />
                 <Table.Column key="title" title="Movie" dataIndex="movie.title" />

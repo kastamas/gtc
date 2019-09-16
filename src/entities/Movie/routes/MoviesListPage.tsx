@@ -19,7 +19,7 @@ class MoviesListPageComponent extends Component<AllProps> {
 
     console.log(data);
     return (
-      <div>
+      <div className="body--with-h-padding">
         <Typography.Title>Now showing!</Typography.Title>
 
         <List

@@ -157,8 +157,8 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
     const { email } = customerDetails;
 
     this.onToggleModal();
-
     this.updateSeatsStatus();
+
     message.success(
       `Purchasing successful! Tickets have been sent on your email: ${email}. (*Not really. this is just a demo)`,
       5
