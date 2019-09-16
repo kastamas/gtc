@@ -6,11 +6,11 @@ import React, { Component } from 'react';
 class HeaderComponent extends Component {
   render() {
     return (
-      <Layout.Header>
+      <Layout.Header className="header">
         <Row type={'flex'} justify={'center'}>
-          <Col xs={24} sm={22} md={20} lg={18} xl={16} xxl={14}>
+          <Col xs={24} sm={24} md={22} lg={20} xl={18} xxl={16}>
             <Link to="/">
-              <div className="header">
+              <div className="header__logo">
                 <Icon type="video-camera" />
                 <span className="ml-3">CinemaGo!</span>
               </div>

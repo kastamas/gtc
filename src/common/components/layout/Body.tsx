@@ -10,7 +10,7 @@ class ContentComponent extends Component {
     return (
       <Layout.Content className={'body'}>
         <Row type={'flex'} justify={'center'}>
-          <Col xs={24} sm={22} md={20} lg={18} xl={16} xxl={14}>
+          <Col xs={24} sm={24} md={22} lg={20} xl={18} xxl={16}>
             <Switch>
               <Route path={`/${ERoutes.Movies}`} component={MoviesListPage} exact />
               <Route path={`/${ERoutes.Movies}/:id`} component={MoviePage} />

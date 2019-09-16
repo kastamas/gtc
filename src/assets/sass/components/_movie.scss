@@ -1,9 +1,22 @@
 .movie {
   &__card {
     &__cover {
-      max-height: 300px;
+      max-height: 330px;
       overflow: hidden;
       position: relative;
+    }
+
+    &__title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    &__genres {
+      font-size: 12px
+    }
+
+    &__info {
+      height: 90px;
     }
   }
 }

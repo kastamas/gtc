@@ -1,3 +1,9 @@
+@import "../abstracts/variables";
+
 .body {
   padding: 24px 50px;
+
+  @media(min-height: $screen-xs) {
+    padding: 24px 16px;
+  }
 }

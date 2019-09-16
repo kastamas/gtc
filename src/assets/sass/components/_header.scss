@@ -1,5 +1,13 @@
+@import "../abstracts/variables";
+
 .header {
-  color: #fff;
-  font-weight: bold;
-  margin: 0 0px;
+  &__logo {
+    color: #fff;
+    font-weight: bold;
+    margin: 0 0px;
+  }
+
+  @media(min-height: $screen-xs) {
+    padding: 0 16px;
+  }
 }

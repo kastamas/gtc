@@ -48,8 +48,14 @@ class MoviesListPageComponent extends Component<AllProps> {
                 }
                 className="movie__card box-shadowed--interactive"
               >
-                <h3>{movie.title}</h3>
-                <Typography.Paragraph className="text--capitalize">{movie.genres.join(', ')}</Typography.Paragraph>
+                <div className="movie__card__info">
+                  <Typography.Paragraph ellipsis={{ rows: 2 }} className="movie__card__title mb-3">
+                    {movie.title}
+                  </Typography.Paragraph>
+                  <Typography.Paragraph className="text--capitalize movie__card__genres" ellipsis={{ rows: 1 }}>
+                    {movie.genres.join(', ')}
+                  </Typography.Paragraph>
+                </div>
                 <Row type="flex" justify="center">
                   <Button type="primary" onClick={() => this.goToMovie(movie.id)} className="w--100">
                     Buy a Ticket!
