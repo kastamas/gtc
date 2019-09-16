@@ -42,11 +42,13 @@ class MoviePageTheatersListComponent extends Component<AllProps> {
         ) : (
           <>
             {data && (
-              <Table dataSource={data} loading={loading} pagination={false}>
+              <Table dataSource={data} loading={loading} pagination={false} rowKey="id">
                 <Table.Column
+                  key="date"
                   render={(text, record: IShowModel) => <DateFormatter format="Do MMM" date={record.startDateTime} />}
                 />
                 <Table.Column
+                  key="time"
                   render={(text, record: IShowModel) => (
                     <div className="text--nowrap">
                       <DateFormatter format="HH:mm" date={record.startDateTime} /> -{' '}
@@ -54,9 +56,10 @@ class MoviePageTheatersListComponent extends Component<AllProps> {
                     </div>
                   )}
                 />
-                <Table.Column title="Movie" dataIndex="movie.title" />
+                <Table.Column key="title" title="Movie" dataIndex="movie.title" />
                 <Table.Column
-                  title="Theater, Address, Room"
+                  key="address"
+                  title="Cinema, Address, Room"
                   render={(text, record: IShowModel) => (
                     <>
                       <span>«{record.theater.name}», </span>
@@ -66,6 +69,7 @@ class MoviePageTheatersListComponent extends Component<AllProps> {
                   )}
                 />
                 <Table.Column
+                  key="actions"
                   render={(text: string, record: IShowModel) => (
                     <Button type="primary" onClick={() => onSelect(record)}>
                       Select

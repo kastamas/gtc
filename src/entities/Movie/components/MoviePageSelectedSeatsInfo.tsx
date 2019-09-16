@@ -1,6 +1,6 @@
 import { Divider, Typography } from 'antd';
 import { ISeatModel } from 'entities/Theater/Theater.models';
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 
 interface IComponentProps {
   selectedSeats: ISeatModel[];
@@ -15,14 +15,14 @@ class MoviePageSelectedSeatsInfoComponent extends Component<IComponentProps> {
         <Typography.Title level={4}>Selected seats ({selectedSeats.length})</Typography.Title>
         {selectedSeats.map((seat: ISeatModel) => {
           return (
-            <>
+            <React.Fragment key={`${seat.rowPosition}_${seat.position}`}>
               <div>
                 Row: {seat.rowPosition}, Seat: {seat.position}
                 <br />
                 <span className="color--primary">{seat.price} RUR</span>
               </div>
               <Divider className="mt-3 mb-3" />
-            </>
+            </React.Fragment>
           );
         })}
 

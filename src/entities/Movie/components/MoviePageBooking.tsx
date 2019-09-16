@@ -1,17 +1,14 @@
-import axios from 'axios';
-import { Alert, Button, Card, Col, Descriptions, Divider, Icon, message, Row, Typography } from 'antd';
+import { Alert, Button, Col, Divider, Icon, message, Row, Typography } from 'antd';
 import { MoviePageBookingSeat } from 'entities/Movie/components/MoviePageBookingSeat';
 import { MoviePagePurchaseModal } from 'entities/Movie/components/MoviePagePurchaseModal';
 import { MoviePageSelectedSeatsInfo } from 'entities/Movie/components/MoviePageSelectedSeatsInfo';
 import { IMovieModel } from 'entities/Movie/Movie.models';
 import { IShowModel } from 'entities/Shows/Shows.models';
-import { IRowModel, ISeatModel } from 'entities/Theater/Theater.models';
-import React, { Component } from 'react';
+import { ISeatModel } from 'entities/Theater/Theater.models';
+import React, { Component, PureComponent } from 'react';
 
 interface IComponentState {
   selectedSeats: ISeatModel[];
-  loading: boolean;
-  theaterData?: { rows: IRowModel[] };
   isModalDisplaying: boolean;
 }
 
@@ -25,40 +22,26 @@ type AllProps = IComponentProps;
 class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
   state = {
     selectedSeats: [],
-    loading: false,
-    theaterData: undefined,
     isModalDisplaying: false
   };
 
-  componentDidMount(): void {
-    this.setState({
-      loading: true
-    });
-
-    axios.get('/rows').then(response => {
+  componentDidUpdate(prevProps: Readonly<AllProps>, prevState: Readonly<IComponentState>): void {
+    if (prevProps.selectedShow !== this.props.selectedShow) {
       this.setState({
-        loading: false,
-        theaterData: response.data as { rows: IRowModel[] }
+        selectedSeats: []
       });
-    });
+    }
   }
 
   render() {
     const { selectedSeats, isModalDisplaying } = this.state;
-    const { movie, selectedShow } = this.props;
-    const { title, description } = movie;
+    const { selectedShow } = this.props;
 
     if (!selectedShow) {
       return null;
     }
 
     const { room } = selectedShow;
-
-    // const theaterData = (this.state.theaterData as unknown) as { rows: IRowModel[] };
-
-    /* if (this.state.loading || theaterData === undefined) {
-      return null;
-    }*/
 
     return (
       <>
@@ -87,7 +70,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                 <div style={{ display: 'flex' }}>
                   <div className="mr-3">
                     {room.rows.map(row => (
-                      <Row className="mt-0 mb-0">
+                      <Row className="mt-0 mb-0" key={row.position}>
                         <div className="rows">Row {row.position}</div>
                       </Row>
                     ))}
@@ -96,9 +79,10 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                       {room.rows.map(row => {
                         return (
-                          <Row type="flex" className="mt-0 mb-0">
+                          <Row type="flex" className="mt-0 mb-0" key={row.position}>
                             {row.seats.map(seat => (
                               <MoviePageBookingSeat
+                                key={seat.position}
                                 seat={seat as ISeatModel}
                                 onSelectSeat={this.onSelectSeat}
                                 onDeselectSeat={this.onDeselectSeat}
@@ -111,7 +95,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                   </div>
                   <div className="ml-3">
                     {room.rows.map(row => (
-                      <Row className="mt-0 mb-0 ">
+                      <Row className="mt-0 mb-0 " key={row.position}>
                         <div className="rows">Row {row.position}</div>
                       </Row>
                     ))}
@@ -121,7 +105,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
             </Row>
           </Col>
           <Col xs={24} sm={6}>
-            {selectedSeats.length > 0 && (
+            {selectedSeats && selectedSeats.length > 0 && (
               <>
                 <MoviePageSelectedSeatsInfo selectedSeats={selectedSeats} />
                 <Button type={'primary'} onClick={this.onToggleModal}>
@@ -177,6 +161,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
     this.setState({
       selectedSeats: []
     });
+
     message.success(`Purchasing successful! Tickets has been sent on your email: ${email}`, 5);
   };
 

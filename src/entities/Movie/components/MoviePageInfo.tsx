@@ -33,7 +33,7 @@ class MoviePageInfoComponent extends Component<IComponentProps> {
               {genres.join(', ')}
             </Descriptions.Item>
             <Descriptions.Item label="Director">{director}</Descriptions.Item>
-            <Descriptions.Item label="Duration">{duration}</Descriptions.Item>
+            <Descriptions.Item label="Duration">{duration} Min.</Descriptions.Item>
             <Descriptions.Item label="Starring">{starring.join(', ')}</Descriptions.Item>
           </Descriptions>
         </Col>
