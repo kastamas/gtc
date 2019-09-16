@@ -13,9 +13,11 @@ interface IComponentState {
 type AllProps = RouteComponentProps & IMovieConnectedProps;
 
 class MoviePageComponent extends Component<AllProps, IComponentState> {
-  state = {
-    selectedShow: undefined
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = { selectedShow: undefined };
+  }
 
   componentDidMount(): void {
     const { getMovieModel } = this.props;
@@ -51,7 +53,7 @@ class MoviePageComponent extends Component<AllProps, IComponentState> {
             onDeselect={this.onDeselectShow}
             selectedShow={selectedShow}
           />
-          <MoviePageBooking movie={movieModel.data} selectedShow={selectedShow} />
+          {selectedShow && <MoviePageBooking movie={movieModel.data} selectedShow={selectedShow} />}
         </Card>
       </>
     );

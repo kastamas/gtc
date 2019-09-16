@@ -4,26 +4,32 @@ import { MoviePagePurchaseModal } from 'entities/Movie/components/MoviePagePurch
 import { MoviePageSelectedSeatsInfo } from 'entities/Movie/components/MoviePageSelectedSeatsInfo';
 import { IMovieModel } from 'entities/Movie/Movie.models';
 import { IShowModel } from 'entities/Shows/Shows.models';
-import { ISeatModel } from 'entities/Theater/Theater.models';
-import React, { Component, PureComponent } from 'react';
+import { ESeatStatus, IRowModel, ISeatModel } from 'entities/Theater/Theater.models';
+import React, { Component } from 'react';
 
 interface IComponentState {
   selectedSeats: ISeatModel[];
   isModalDisplaying: boolean;
+  rows: IRowModel[];
 }
 
 interface IComponentProps {
   movie: IMovieModel;
-  selectedShow?: IShowModel;
+  selectedShow: IShowModel;
 }
 
 type AllProps = IComponentProps;
 
 class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
-  state = {
-    selectedSeats: [],
-    isModalDisplaying: false
-  };
+  constructor(props: AllProps) {
+    super(props);
+
+    this.state = {
+      selectedSeats: [],
+      isModalDisplaying: false,
+      rows: props.selectedShow.room.rows
+    };
+  }
 
   componentDidUpdate(prevProps: Readonly<AllProps>, prevState: Readonly<IComponentState>): void {
     if (prevProps.selectedShow !== this.props.selectedShow) {
@@ -34,14 +40,8 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
   }
 
   render() {
-    const { selectedSeats, isModalDisplaying } = this.state;
+    const { selectedSeats, isModalDisplaying, rows } = this.state;
     const { selectedShow } = this.props;
-
-    if (!selectedShow) {
-      return null;
-    }
-
-    const { room } = selectedShow;
 
     return (
       <>
@@ -69,7 +69,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                 <div className="screen">screen</div>
                 <div style={{ display: 'flex' }}>
                   <div className="mr-3">
-                    {room.rows.map(row => (
+                    {rows.map(row => (
                       <Row className="mt-0 mb-0" key={row.position}>
                         <div className="rows">Row {row.position}</div>
                       </Row>
@@ -77,7 +77,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                   </div>
                   <div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {room.rows.map(row => {
+                      {rows.map(row => {
                         return (
                           <Row type="flex" className="mt-0 mb-0" key={row.position}>
                             {row.seats.map(seat => (
@@ -94,7 +94,7 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                     </div>
                   </div>
                   <div className="ml-3">
-                    {room.rows.map(row => (
+                    {rows.map(row => (
                       <Row className="mt-0 mb-0 " key={row.position}>
                         <div className="rows">Row {row.position}</div>
                       </Row>
@@ -158,14 +158,35 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
 
     this.onToggleModal();
 
-    this.setState({
-      selectedSeats: []
-    });
-
-    message.success(`Purchasing successful! Tickets has been sent on your email: ${email}`, 5);
+    this.updateSeatsStatus();
+    message.success(
+      `Purchasing successful! Tickets have been sent on your email: ${email}. (*Not really. this is just a demo)`,
+      5
+    );
   };
 
-  updateSeatsStatus = () => {};
+  updateSeatsStatus = () => {
+    this.setState(state => {
+      const { selectedSeats, rows } = state;
+
+      selectedSeats.forEach(seat => {
+        const rowIndex = rows.findIndex(row => row.position === seat.rowPosition);
+
+        if (rowIndex !== -1) {
+          const seatIndex = rows[rowIndex].seats.findIndex(_seat => _seat.position === seat.position);
+
+          if (seatIndex !== -1) {
+            rows[rowIndex].seats[seatIndex].status = ESeatStatus.Reserved;
+          }
+        }
+      });
+
+      return {
+        selectedSeats: [],
+        rows
+      };
+    });
+  };
 }
 
 export const MoviePageBooking = MoviePageBookingComponent;
