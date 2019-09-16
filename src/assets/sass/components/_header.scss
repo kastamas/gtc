@@ -7,7 +7,7 @@
     margin: 0 0px;
   }
 
-  @media(min-height: $screen-xs) {
+  @media(max-width: $screen-xs) {
     padding: 0 16px;
   }
 }

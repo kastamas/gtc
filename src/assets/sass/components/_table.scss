@@ -1,6 +1,8 @@
+@import "../abstracts/variables";
+
 .table {
 
-  @media(min-height: $screen-xs) {
+  @media(max-width: $screen-xs) {
     .ant-table-tbody {
       tr {
         td {

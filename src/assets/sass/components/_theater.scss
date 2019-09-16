@@ -27,7 +27,7 @@
     white-space: nowrap;
     font-size: 12px;
 
-    @media (min-height: $screen-xs) {
+    @media (max-width: $screen-xs) {
       height: 20px;
       line-height: 20px;
       display: none;
@@ -57,7 +57,7 @@
       }
     }
 
-    @media (min-height: $screen-xs) {
+    @media (max-width: $screen-xs) {
       width: 20px;
       height: 20px;
       line-height: 20px;
