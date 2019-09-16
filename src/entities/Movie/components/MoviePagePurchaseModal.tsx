@@ -1,12 +1,16 @@
 import { Button, Col, Descriptions, Divider, Form, Input, Modal, Row, Typography } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
+import { DateFormatter } from 'common/components/dataDisplay';
 import { MoviePageSelectedSeatsInfo } from 'entities/Movie/components/MoviePageSelectedSeatsInfo';
+import { MoviePageShowInfo } from 'entities/Movie/components/MoviePageShowInfo';
 import { IMovieModel } from 'entities/Movie/Movie.models';
+import { IShowModel } from 'entities/Shows/Shows.models';
 import { ISeatModel } from 'entities/Theater/Theater.models';
 import React, { Component } from 'react';
 
 interface IComponentProps {
   isDisplaying: boolean;
+  selectedShow: IShowModel;
   selectedSeats: ISeatModel[];
   onToggleModal: () => void;
   onConfirmPayment: (values: { email: string }) => void;
@@ -20,7 +24,7 @@ type AllProps = IComponentProps & FormComponentProps;
 
 class MoviePagePurchaseModalComponent extends Component<AllProps> {
   render() {
-    const { isDisplaying, onToggleModal, onConfirmPayment, selectedSeats, form } = this.props;
+    const { isDisplaying, onToggleModal, selectedShow, selectedSeats, form } = this.props;
     const { getFieldDecorator } = form;
 
     return (
@@ -28,11 +32,7 @@ class MoviePagePurchaseModalComponent extends Component<AllProps> {
         <Row>
           <Col xs={12}>
             <Typography.Title level={4}>Show info</Typography.Title>
-            <Descriptions layout="vertical" column={1} size={'small'} className="mt-3">
-              <Descriptions.Item label="Movie">-</Descriptions.Item>
-              <Descriptions.Item label="Cinema">-</Descriptions.Item>
-              <Descriptions.Item label="Show">-</Descriptions.Item>
-            </Descriptions>
+            <MoviePageShowInfo show={selectedShow} />
           </Col>
           <Col xs={12}>
             <MoviePageSelectedSeatsInfo selectedSeats={selectedSeats} />

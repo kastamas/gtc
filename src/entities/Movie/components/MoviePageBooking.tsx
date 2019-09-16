@@ -129,16 +129,12 @@ class MoviePageBookingComponent extends Component<AllProps, IComponentState> {
                 </Button>
               </>
             )}
-            {/* <Descriptions layout="vertical" column={1} size={'small'} className="mt-3">
-              <Descriptions.Item label="Movie">{title}</Descriptions.Item>
-              <Descriptions.Item label="Cinema">-</Descriptions.Item>
-              <Descriptions.Item label="Show time">-</Descriptions.Item>
-            </Descriptions>*/}
           </Col>
         </Row>
 
         <MoviePagePurchaseModal
-          selectedSeats={selectedSeats as ISeatModel[]}
+          selectedShow={selectedShow}
+          selectedSeats={selectedSeats}
           isDisplaying={isModalDisplaying}
           onConfirmPayment={this.onConfirmPayment}
           onToggleModal={this.onToggleModal}

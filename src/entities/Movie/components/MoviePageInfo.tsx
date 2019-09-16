@@ -1,5 +1,6 @@
 import { Card, Col, Descriptions, Row, Statistic } from 'antd';
 import { IMovieModel } from 'entities/Movie/Movie.models';
+import { duration } from 'moment';
 import React, { Component } from 'react';
 
 interface IComponentProps {
@@ -9,10 +10,10 @@ interface IComponentProps {
 class MoviePageInfoComponent extends Component<IComponentProps> {
   render() {
     const { movie } = this.props;
-    const { cover, description, imdbRating, genres, director, starring } = movie;
+    const { cover, description, imdbRating, genres, director, starring, duration } = movie;
 
     return (
-      <Row type={'flex'} gutter={16} style={{ flexFlow: 'row' }}>
+      <Row type={'flex'} gutter={32} style={{ flexFlow: 'row' }}>
         <Col>
           <div>
             <img src={cover} />
@@ -32,6 +33,7 @@ class MoviePageInfoComponent extends Component<IComponentProps> {
               {genres.join(', ')}
             </Descriptions.Item>
             <Descriptions.Item label="Director">{director}</Descriptions.Item>
+            <Descriptions.Item label="Duration">{duration}</Descriptions.Item>
             <Descriptions.Item label="Starring">{starring.join(', ')}</Descriptions.Item>
           </Descriptions>
         </Col>

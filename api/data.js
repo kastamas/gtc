@@ -15,7 +15,7 @@ const generateMovies = () => {
   let movies = [];
 
   for (let i = 0; i < 10; i++) {
-    const duration = `${getRandomInt(70, 160)} Min.`;
+    const duration = getRandomInt(70, 160);
     const movie = {
       id: i,
       title: faker.commerce.productName(),
@@ -69,15 +69,15 @@ const generateShows = movies => {
   for (let i = 0; i < 30; i++) {
     const randomIndex = getRandomInt(0, movies.length - 1);
     const movie = movies[randomIndex];
-
     const startDateTime = faker.date.future();
+    const endDateTime = new Date(startDateTime.getTime() + movie.duration * 60 * 1000);
 
     const show = {
       id: i,
       movie: movie,
       theater: generateTheater(),
       startDateTime: startDateTime,
-      endDateTime: startDateTime + movie.duration,
+      endDateTime: endDateTime,
       room: {
         number: getRandomInt(1, 9),
         rows: generateRows()

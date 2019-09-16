@@ -15,7 +15,7 @@ const collectionAPIProvider = [
     (movieId: number): Promise<any> => {
       return axios
         .get('/shows', {
-          params: { 'movie.id': movieId }
+          params: { 'movie.id': movieId, _sort: 'startDateTime' }
         })
         .then(response => response.data);
     }
