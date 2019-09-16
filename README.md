@@ -6,7 +6,9 @@ Firs of all you need to download `node_modules`
 
 Just run `yarn` or `npm install`
 
-Then run `yarn start`, to run this app
+Then run `yarn mock:api`, to start json-server
+
+And finally run `yarn start`, to run this app
 
 Frontend will be available on [http://localhost:3000](http://localhost:3000),
 and json server on [http://localhost:4000](http://localhost:4000)

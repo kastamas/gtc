@@ -33,11 +33,11 @@
     "prettier": "^1.16.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && yarn mock:api",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "mock:api": "json-server --watch api/db.json --port 4000"
+    "mock:api": "json-server api/data.js --port 4000"
   },
   "eslintConfig": {
     "extends": "react-app"
